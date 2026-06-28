@@ -3,6 +3,9 @@
 
 using namespace std;
 
+const int ERROR = -1;
+const int SUCCESS = 0;
+
 struct VERBALE {
   char codice[16];
   char dataEmissione[11];
@@ -25,7 +28,7 @@ int insTesta(NODO *&paramHead, VERBALE paramDato) {
   bool isRamPiena = t == NULL;
   if(isRamPiena) {
     cout << "Ram Piena";
-    return -1;
+    return ERR;
   }
 
   tempNodo->dato = paramDato;
@@ -33,7 +36,7 @@ int insTesta(NODO *&paramHead, VERBALE paramDato) {
   tempNodo->next = paramHead;
   paramHead = tempNodo;
 
-  return 0;
+  return SUCCESS;
 };
 
 int cercaData(char paramData[], char *paramDateAppelli[], int size) {
