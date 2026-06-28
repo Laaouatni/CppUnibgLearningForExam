@@ -22,16 +22,16 @@ struct NODO {
   NODO *next;
 };
 
-int insTesta(NODO* &paramHead, VERBALE paramDato) {
+int insTesta(NODO* &head, VERBALE datoToInserire) {
   NODO *tempNodo = new NODO;
   
-  bool isRamPiena = t == NULL;
+  bool isRamPiena = tempNodo == NULL;
   if(isRamPiena) return ERROR;
 
-  tempNodo->dato = paramDato;
-  tempNodo->next = paramHead;
+  tempNodo->dato = datoToInserire;
+  tempNodo->next = head;
 
-  paramHead = tempNodo;
+  head = tempNodo;
 
   return SUCCESS;
 };
@@ -59,7 +59,7 @@ void calcolaConteggiAppelli(NODO* lista, char *listaDateAppelli[], int listaCont
 }
 
 int calcolaMaxPos(int listaConteggi[], int size) {
-  int maxPos = ERRORE;
+  int maxPos = ERROR;
   int maxVal = 0;
 
   for(int i=0; i<size; i++) {
@@ -81,9 +81,9 @@ int copiaSeDataMax(NODO *lista, char* dataMax, NODO *&listaOut) {
     bool isThisDataMax = strcmp(thisDataAppello, dataMax) == 0;
 
     if(!isThisDataMax) continue;
-    
-    return insTesta(listaOut, p->dato); // ERROR=-1; SUCCESS=0 e inserisce in listaOut;
+    if(insTesta(listaOut, p->dato) == ERROR) return ERROR;
   }
+  return SUCCESS;
 }
 
 NODO* copiaAlcuniVerbali(NODO* lista1, NODO* lista2, char* listaDateAppelli[], int size) {
