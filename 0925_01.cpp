@@ -39,8 +39,43 @@ int insTesta(NODO *&paramHead, VERBALE paramDato) {
   return SUCCESS;
 };
 
-int cercaData(char paramData[], char *paramDateAppelli[], int size) {
-  for
+int cercaData(char dataToSearch[], char *listaDateAppelli[], int size) {
+  for(int i=0;i<size; i++) {
+    char *thisForData = listaDateAppelli[i];
+    bool isDataFound = strcmp(dataToSearch, thisForData) == 0;
+    if(isDataFound) return i;
+  }
+  return ERROR;
 }
+
+void CalcolaConteggiAppelli(NODO *lista, char *listaDateAppelli[], int size, int listaConteggi[]) {  
+  int indexData;
+
+  for(NODO *p=lista; p != NULL; p = p->next) {
+    indexData = cercaData(p->dato.dataAppello, listaDateAppelli, size);
+    
+    if(indexData == ERROR) continue;
+    listaConteggi[indexData]++;
+  }
+}
+
+int calcolaMaxPos(int listaConteggi[], int size) {
+  int maxPos = ERRORE;
+  int maxVal = 0;
+
+  for(int i=0; i<size; i++) {
+    int thisConteggio = listaConteggi[i];
+    bool isBiggerThanBefore = thisConteggio > maxVal;
+    
+    if(!isBiggerThanBefore) continue;
+    
+    maxPos = i;
+    maxVal = thisConteggio;
+  }
+
+  return maxPos;
+}
+
+void 
 
 
