@@ -34,6 +34,65 @@ void insTesta(NODO* &head, VERBALE dato) {
   return SUCCESS;
 }
 
+int estraiValore(char* dataString, int inizio, int len) {
+  char buffer[len+1];
+
+  for(int i=0; i<len; i++) {
+    char thisChar = dataString[inizio+i];
+    buffer[i] = thisChar;
+  }
+
+  buffer[len+1] = '\0';
+  return atoi(buffer);
+}
+
+/* struct DateCompare {
+  int giorno;
+  int mese;
+  int anno;
+}; */
+
+/* DateCompare isDateEqual(char* firstDate, char* secondDate) {
+  int primaData[3];
+  int secondaData[3];
+  int params[6] = {0,4,0,4,5,2}
+
+  for(int i=0; i<3; i++) {
+    const int indexInizio = i*2;
+    const int indexLen = indexInizio+1;
+    primaData[i] = estraiValore(firstDate, params[indexInizio], params[indexLen]);
+    secondaData[i] = estraiValore(secondDate, params[indexIndexs], params[indexLen]);
+  }
+
+  for()
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* void calcolaConteggi(NODO *lista, char* listaInsegnamenti, int conteggi[], int size) {
   for(NODO *p = lista; p != NULL; p = p->next) {
     char* thisListaInsegnamento = p->dato.codiceInsegnamento;
