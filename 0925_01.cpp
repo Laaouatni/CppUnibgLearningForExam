@@ -58,6 +58,12 @@ void calcolaConteggiAppelli(NODO* lista, char *listaDateAppelli[], int listaCont
   }
 }
 
+void initIntArray(int arrayToInit[], int val, int size) {
+  for(int i=0; i<size; i++) {
+    arrayToInit[i] = val;
+  }
+}
+
 int calcolaMaxPos(int listaConteggi[], int size) {
   int maxPos = ERROR;
   int maxVal = 0;
@@ -84,12 +90,6 @@ int copiaSeDataMax(NODO* lista, char* dataMax, NODO*& listaOut) {
     if(insTesta(listaOut, p->dato) == ERROR) return ERROR;
   }
   return SUCCESS;
-}
-
-void initIntArray(int arrayToInit[], int val, int size) {
-  for(int i=0; i<size; i++) {
-    arrayToInit[i] = val;
-  }
 }
 
 NODO* copiaAlcuniVerbali(NODO* lista1, NODO* lista2, char* listaDateAppelli[], int size) {
