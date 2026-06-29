@@ -25,11 +25,8 @@ struct NODO {
 int insTesta(NODO* &head, VERBALE datoToInserire) {
   NODO *tempNodo = new NODO;
   
-  bool isRamPiena = tempNodo == NULL;
-  if(isRamPiena) {
-    cout << "Errore Allocazione: molto probabilmente RAM piena";
-    return ERROR;
-  } 
+  bool isRamPiena = (tempNodo == NULL);
+  if(isRamPiena) return ERROR;
 
   tempNodo->dato = datoToInserire;
   tempNodo->next = head;
@@ -89,7 +86,7 @@ int copiaSeDataMax(NODO* lista, char* dataMax, NODO*& listaOut) {
   return SUCCESS;
 }
 
-void initInt(int arrayToInit[], int val, int size) {
+void initIntArray(int arrayToInit[], int val, int size) {
   for(int i=0; i<size; i++) {
     arrayToInit[i] = val;
   }
@@ -102,7 +99,7 @@ NODO* copiaAlcuniVerbali(NODO* lista1, NODO* lista2, char* listaDateAppelli[], i
   NODO* listaOut=NULL;
 
   // inizializzazione
-  arrayToInit(conteggi, 0, size);
+  initIntArray(conteggi, 0, size);
 
   // riempi array conteggi con numero volte stessa data è stata trovata
   calcolaConteggiAppelli(lista1, listaDateAppelli, conteggi, size);
