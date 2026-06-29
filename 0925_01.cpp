@@ -119,3 +119,4 @@ NODO* copiaAlcuniVerbali(NODO* lista1, NODO* lista2, char* listaDateAppelli[], i
 }
 
 
+// ricorda se vuoi modificare char* myString; devi fare char myString[nChar+1]; oppure char* myString = new char[5]; ... e non dimenticarti il delete[] myString; alla fine
