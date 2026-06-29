@@ -25,7 +25,7 @@ struct NODO {
 int insTesta(NODO* &head, VERBALE datoToInserire) {
   NODO *tempNodo = new NODO;
   
-  bool isRamPiena = tempNodo == NULL;
+  bool isRamPiena = (tempNodo == NULL);
   if(isRamPiena) return ERROR;
 
   tempNodo->dato = datoToInserire;
@@ -61,6 +61,12 @@ void calcolaConteggi(NODO* lista, char *listaDate[], int listaConteggi[], int si
   }
 }
 
+void initInt(int arrayToInit[], int val, int size) {
+  for(int i=0; i<size; i++) {
+    arrayToInit[i] = val;
+  }
+}
+
 int calcolaQUALCOSA(int listaConteggi[], int size) {
   int VALUETORETURN=INITIALVALUE;
 
@@ -85,12 +91,6 @@ int COPIACONDIZIONE(NODO* lista, char* dataMax, NODO* &listaOut) {
     if(insTesta(listaOut, p->dato) == ERROR) return ERROR;
   }
   return SUCCESS;
-}
-
-void initInt(int arrayToInit[], int val, int size) {
-  for(int i=0; i<size; i++) {
-    arrayToInit[i] = val;
-  }
 }
 
 // listaDate è listaDateAppelli
