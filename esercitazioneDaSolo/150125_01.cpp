@@ -124,6 +124,10 @@ NODO* VerbaliMeseDiverso(NODO* listaIn, char* insegnamenti[], int size) {
   contaApelliStessaData(listaIn, insegnamenti, conteggi, size);
 
   int indexMenoVerbali = trovaIndexMenoVerbali(conteggi, size);
+  
+  bool hasNoVerbali = conteggi[indexMenoVerbali] == 0;
+  if(hasNoVerbali) return NULL;
+
   char* selectedInsegnamento = insegnamenti[indexMenoVerbali];
   
   if(copiaVerbaliDataAppelloMesiSuccessivi(listaIn, listaOut, selectedInsegnamento) == ERROR) return NULL;
