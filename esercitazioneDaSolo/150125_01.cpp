@@ -1,7 +1,6 @@
-#include <iostream>
 #include <cstring>
 
-const int SUCCESS = NULL; // NULL è 0
+const int SUCCESS = 0;
 const int ERROR = -1;
 
 struct VERBALE {
@@ -13,20 +12,20 @@ struct VERBALE {
   char nomeDocente[51];
   char matricolaStudente[8];
   int voto;
-}
+};
 
 struct NODO {
   VERBALE dato;
   NODO* next;
 };
 
-void insTesta(NODO* &head, VERBALE dato) {
+int insTesta(NODO* &head, VERBALE dato) {
   NODO* t = new NODO;
 
   bool isRamPiena = (t == NULL);
   if(isRamPiena) return ERROR;
 
-  t->head = head;
+  t->next = head;
   t->dato = dato;
 
   head = t;
@@ -42,80 +41,46 @@ int estraiValore(char* dataString, int inizio, int len) {
     buffer[i] = thisChar;
   }
 
-  buffer[len+1] = '\0';
+  buffer[len] = '\0';
   return atoi(buffer);
 }
 
-/* struct DateCompare {
-  int giorno;
-  int mese;
-  int anno;
-}; */
+bool isMeseAnnoEqual(char *firstDate, char *secondDate) {
+  int mesePrimaData = estraiValore(firstDate, 5,2);
+  int meseSecondaData = estraiValore(secondDate, 5,2);
+  int annoPrimaData = estraiValore(firstDate, 0, 4);
+  int annoSecondaData = estraiValore(secondDate, 0,4);
 
-/* DateCompare isDateEqual(char* firstDate, char* secondDate) {
-  int primaData[3];
-  int secondaData[3];
-  int params[6] = {0,4,0,4,5,2}
+  bool isStessoMese = mesePrimaData == meseSecondaData;
+  bool isStessoAnno = annoPrimaData == annoSecondaData;
 
-  for(int i=0; i<3; i++) {
-    const int indexInizio = i*2;
-    const int indexLen = indexInizio+1;
-    primaData[i] = estraiValore(firstDate, params[indexInizio], params[indexLen]);
-    secondaData[i] = estraiValore(secondDate, params[indexIndexs], params[indexLen]);
-  }
+  if(isStessoMese && isStessoAnno) return true;
+  return false;
+}
 
-  for()
-} */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* void calcolaConteggi(NODO *lista, char* listaInsegnamenti, int conteggi[], int size) {
+void contaApelliStessaData(NODO* lista, char* insegnamenti[], int conteggi[], int size) {
   for(NODO *p = lista; p != NULL; p = p->next) {
-    char* thisListaInsegnamento = p->dato.codiceInsegnamento;
     for(int i=0; i<size; i++) {
-      char* thisForInsegnamento = listaInsegnamenti[i];
-      bool isFound = strcmp(thisListaInsegnamento, thisForInsegnamento) == 0;
-      if(!isFound) continue;
-
+      char* thisInsegnamento = insegnamenti[i];
+      bool isSameCodice = strcmp(thisInsegnamento, p->dato.codiceInsegnamento) == 0;
+      if(!isSameCodice) continue;
+      bool isStessoMeseAnno = isMeseAnnoEqual(p->dato.dataVerbalizzazione, p->dato.dataAppelloEsame);
+      if(!isStessoMeseAnno) continue;
       conteggi[i]++;
     }
   }
 }
 
-int indexMinIns(int conteggi[], int size) {
+int trovaIndexMenoVerbali(int conteggi[], int size) {
   int minValue = conteggi[0];
   int minIndex = 0;
 
   for(int i=1; i<size; i++) {
-    const int thisConteggio = conteggi[i];
-    bool isSmaller = thisConteggio < minValue;
+    int thisConteggio = conteggi[i];
 
-    if(!isSmaller) continue;
-
+    bool isMinoreThanBefore = thisConteggio < minValue;
+    if(!isMinoreThanBefore) continue;
+    
     minValue = thisConteggio;
     minIndex = i;
   }
@@ -123,4 +88,45 @@ int indexMinIns(int conteggi[], int size) {
   return minIndex;
 }
 
- */
+void initArray(int paramArray[], int value, int size) {
+  for(int i=0; i<size; i++) {
+    paramArray[i] = value;
+  }
+}
+
+int copiaVerbaliDataAppelloMesiSuccessivi(NODO* listaIn, NODO *&listaOut, char* paramInsegnamento) {
+  for(NODO *p = listaIn; p != NULL; p = p->next) {
+    bool hasWantedInsegnamento = strcmp(p->dato.codiceInsegnamento, paramInsegnamento) == 0;
+    if(!hasWantedInsegnamento) continue;
+
+    int meseDataAppello = estraiValore(p->dato.dataAppelloEsame, 5, 2);
+    int meseDataVerbalizzazione = estraiValore(p->dato.dataVerbalizzazione, 5,2);
+    int annoDataAppello = estraiValore(p->dato.dataAppelloEsame, 0, 4);
+    int annoDataVerbalizzazione = estraiValore(p->dato.dataVerbalizzazione, 0, 4);
+
+    bool isSameAnno = annoDataAppello == annoDataVerbalizzazione;
+
+    bool canInsTesta = isSameAnno && meseDataVerbalizzazione > meseDataAppello;
+    if(!canInsTesta) continue;
+
+    if(insTesta(listaOut, p->dato) == ERROR) return ERROR;
+  }
+  return SUCCESS;
+}
+
+NODO* VerbaliMeseDiverso(NODO* listaIn, char* insegnamenti[], int size) {
+  if(size<=0) return NULL;
+  NODO *listaOut = NULL;
+
+  int conteggi[size];
+  initArray(conteggi, 0, size);
+
+  contaApelliStessaData(listaIn, insegnamenti, conteggi, size);
+
+  int indexMenoVerbali = trovaIndexMenoVerbali(conteggi, size);
+  char* selectedInsegnamento = insegnamenti[indexMenoVerbali];
+  
+  if(copiaVerbaliDataAppelloMesiSuccessivi(listaIn, listaOut, selectedInsegnamento) == ERROR) return NULL;
+
+  return listaOut;
+}
