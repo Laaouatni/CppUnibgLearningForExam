@@ -101,7 +101,7 @@ NODO* copiaAlcuniVerbali(NODO* lista1, NODO* lista2, char* listaDate[], int size
   NODO* listaOut=NULL;
 
   // inizializzazione
-  arrayToInit(conteggi, 0, size);
+  initIntArray(conteggi, 0, size);
 
   // riempi array conteggi con numero volte stessa data è stata trovata
   calcolaConteggi(lista1, listaDate, conteggi, size);
