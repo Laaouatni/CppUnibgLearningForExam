@@ -1,4 +1,5 @@
-#include <cstring>
+#include <cstring> // strcmp
+#include <cstdlib> // atoi
 
 const int SUCCESS = 0;
 const int ERROR = -1;
@@ -124,7 +125,7 @@ NODO* VerbaliMeseDiverso(NODO* listaIn, char* insegnamenti[], int size) {
   contaApelliStessaData(listaIn, insegnamenti, conteggi, size);
 
   int indexMenoVerbali = trovaIndexMenoVerbali(conteggi, size);
-  
+
   bool hasNoVerbali = conteggi[indexMenoVerbali] == 0;
   if(hasNoVerbali) return NULL;
 
