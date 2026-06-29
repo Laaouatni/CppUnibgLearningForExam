@@ -26,7 +26,10 @@ int insTesta(NODO* &head, VERBALE datoToInserire) {
   NODO *tempNodo = new NODO;
   
   bool isRamPiena = tempNodo == NULL;
-  if(isRamPiena) return ERROR;
+  if(isRamPiena) {
+    cout << "Errore Allocazione: molto probabilmente RAM piena";
+    return ERROR;
+  } 
 
   tempNodo->dato = datoToInserire;
   tempNodo->next = head;
@@ -75,7 +78,7 @@ int calcolaMaxPos(int listaConteggi[], int size) {
   return maxPos; // se non trovo maxPos allora rimane il valore -1 di errore di default (non servono altri if)
 }
 
-int copiaSeDataMax(NODO *lista, char* dataMax, NODO *&listaOut) {
+int copiaSeDataMax(NODO* lista, char* dataMax, NODO*& listaOut) {
   for(NODO *p = lista; p != NULL; p = p->next) {
     char* thisDataAppello = p->dato.dataAppello;
     bool isThisDataMax = strcmp(thisDataAppello, dataMax) == 0;
@@ -86,6 +89,12 @@ int copiaSeDataMax(NODO *lista, char* dataMax, NODO *&listaOut) {
   return SUCCESS;
 }
 
+void initInt(int arrayToInit[], int val, int size) {
+  for(int i=0; i<size; i++) {
+    arrayToInit[i] = val;
+  }
+}
+
 NODO* copiaAlcuniVerbali(NODO* lista1, NODO* lista2, char* listaDateAppelli[], int size) {
   if(size <= 0) return NULL;
 
@@ -93,7 +102,7 @@ NODO* copiaAlcuniVerbali(NODO* lista1, NODO* lista2, char* listaDateAppelli[], i
   NODO* listaOut=NULL;
 
   // inizializzazione
-  for(int i=0; i<size; i++) { conteggi[i]=0; };
+  arrayToInit(conteggi, 0, size);
 
   // riempi array conteggi con numero volte stessa data è stata trovata
   calcolaConteggiAppelli(lista1, listaDateAppelli, conteggi, size);
