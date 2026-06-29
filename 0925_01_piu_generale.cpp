@@ -87,6 +87,12 @@ int COPIACONDIZIONE(NODO* lista, char* dataMax, NODO* &listaOut) {
   return SUCCESS;
 }
 
+void initInt(int arrayToInit[], int val, int size) {
+  for(int i=0; i<size; i++) {
+    arrayToInit[i] = val;
+  }
+}
+
 // listaDate è listaDateAppelli
 NODO* copiaAlcuniVerbali(NODO* lista1, NODO* lista2, char* listaDate[], int size) {
   if(size <= 0) return NULL;
@@ -95,7 +101,7 @@ NODO* copiaAlcuniVerbali(NODO* lista1, NODO* lista2, char* listaDate[], int size
   NODO* listaOut=NULL;
 
   // inizializzazione
-  for(int i=0; i<size; i++) { conteggi[i]=0; };
+  arrayToInit(conteggi, 0, size);
 
   // riempi array conteggi con numero volte stessa data è stata trovata
   calcolaConteggi(lista1, listaDate, conteggi, size);
