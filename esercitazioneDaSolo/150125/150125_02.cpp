@@ -23,7 +23,7 @@ struct NODO {
 int insTesta(NODO* &head, VERBALE dato) {
   NODO* t = new NODO;
   
-  bool isRamPiena = (head == NULL);
+  bool isRamPiena = (t == NULL);
   if(isRamPiena) return ERRORE;
 
   t->next = head;
@@ -55,7 +55,7 @@ bool isSameMeseAnno(char* primaData, char* secondaData) {
   bool isSameAnno = annoPrimaData == annoSecondaData;
   bool isSameMese = mesePrimaData == meseSecondaData;
 
-  return isSameAnno && isSamemese;
+  return isSameAnno && isSamemMese;
 }
 
 void contaVerbaliStessaData(NODO* listaIn, char* insegnamenti[], int conteggi[], int size) {
@@ -67,7 +67,7 @@ void contaVerbaliStessaData(NODO* listaIn, char* insegnamenti[], int conteggi[],
       bool hasSamCode = strcmp(thisArrayCodIns, thisListaCodIns) == 0;
       if(!hasSamCode) continue;
 
-      bool isSameDate = isSameAnnoMese(p->dato.dataVerbalizzazione, p->dataAppello);
+      bool isSameDate = isSameAnnoMese(p->dato.dataVerbalizzazione, p->dato.dataAppello);
       if(!isSameDate) continue;
 
       conteggi[i]++;
@@ -97,7 +97,7 @@ int trovaIndexMenoVerbali(int conteggi[], int size) {
   return minIndex;
 }
 
-void initArray(int paramArray, int value, int size) {
+void initArray(int paramArray[], int value, int size) {
   for(int i=0; i<size; i++) {
     paramArray[i] = value;
   }
@@ -120,7 +120,7 @@ NODO* VerbaliMeseDiverso(NODO* listaIn, char* insegnamenti[], int size) {
     char* thisListaCodIns = p->dato.codiceInsegnamento;
     char* wantedCodInsegnamento = insegnamenti[indexMenoVerb];
 
-    bool hasSameCode = thisListaCodIns == wantedCodInsegnamento;
+    bool hasSameCode = strcmp(thisListaCodIns,wantedCodInsegnamento);
     if(!hasSameCode) continue;
 
     int annoDataVerbalizzazione = estraiValore(p->dato.dataVerbalizzazione, 0, 4);
@@ -134,7 +134,7 @@ NODO* VerbaliMeseDiverso(NODO* listaIn, char* insegnamenti[], int size) {
     bool isVerbAfterAppello = meseDataVerbalizzazione > meseDataAppello;
     if(!isVerbAfterAppello) continue;
 
-    if(insTesta(listaOut, p.dato) == ERROR) return NULL;
+    if(insTesta(listaOut, p->dato) == ERROR) return NULL;
   }
 
   return listaOut;
