@@ -53,8 +53,10 @@ void initArray(int myArray[], int value, int size) {
 
 void calcolaMediaVerbali(NODO* listaIn, char* insegnamenti[], float medie[], int size) {
   int somme[size];
+  int quantita[size];
 
   initArray(somme, 0, size);
+  initArray(quantita, 0, size);
 
   for(NODO* p = listaIn; p != NULL; p = p->next) {
     char* thisListaInsegnamento = p->dato.codiceInsegnamento;
@@ -75,11 +77,17 @@ void calcolaMediaVerbali(NODO* listaIn, char* insegnamenti[], float medie[], int
       bool isSameIns = strcmp(thisListaInsegnamento, thisForInsegnamento) == 0;
       if(!isSameIns) continue;
       somme[i] += p->dato.voto; 
+      quantita[i]++;
     }
   }
 
   for(int i=0; i<size; i++) {
-    medie[i] = (float)somme[i]/(float)size;
+    bool canDoMedia = quantita[i] != 0;
+    if(!canDoMedia) {
+      medie[i] = 0.0;
+    } else { 
+      medie[i] = (float)somme[i]/(float)quantita[i];
+    }
   }
 }
 
