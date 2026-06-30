@@ -41,7 +41,7 @@ void initIntArray(int paramArray[], int value, int size) {
 int estraiValore(char* dataString, int ini, int len) {
   char buffer[len];
 
-  for(int i=0; i<size; i++) {
+  for(int i=0; i<len; i++) {
     char thisChar = dataString[ini+i];
     buffer[i] = thisChar;
   };
@@ -93,12 +93,13 @@ NODO* copiaAlcuniVerbali(NODO* lista1, NODO* lista2, char* insegnamenti[], int s
 
   int conteggi[size];
 
-  if(contaVerbali2025(lista1, insegnamenti, conteggi, size) == ERRORE) return NULL;
-  if(contaVerbali2025(lista2, insegnamenti, conteggi, size) == ERRORE) return NULL;
+  initIntArray(conteggi, 0, size);
+  contaVerbali2025(lista1, insegnamenti, conteggi, size);
+  contaVerbali2025(lista2, insegnamenti, conteggi, size);
 
   int foundedInsMax = insMax(conteggi, size);
-  if(insMax == ERRORE) return NULL;
-  char* foundedCodiceIns = insegnamenti[foundedCodiceIns];
+  if(foundedInsMax == ERRORE) return NULL;
+  char* foundedCodiceIns = insegnamenti[foundedInsMax];
 
   NODO* listaOut = NULL;
   
