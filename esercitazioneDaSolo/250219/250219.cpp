@@ -9,7 +9,7 @@ struct VERBALE {
   char codiceInsegnamento[11];
   char nomeDocente[51];
   int voto;
-}
+};
 
 struct NODO  {
   VERBALE dato;
@@ -65,7 +65,7 @@ void calcolaMediaVerbali(NODO* listaIn, char* insegnamenti[], float medie[], int
     int annoVerb = estraiValore(p->dato.dataVerbalizzazione, 0,4);
 
     bool isSameAnno = annoAppello == annoVerb;
-    bool isSameVerb = meseAppello == meseVerb;
+    bool isSameMese = meseAppello == meseVerb;
 
     bool isSameDate = isSameAnno && isSameMese;
     if(!isSameDate) continue;
@@ -74,7 +74,7 @@ void calcolaMediaVerbali(NODO* listaIn, char* insegnamenti[], float medie[], int
       char* thisForInsegnamento = insegnamenti[i];
       bool isSameIns = strcmp(thisListaInsegnamento, thisForInsegnamento) == 0;
       if(!isSameIns) continue;
-      somme[i] += voto; 
+      somme[i] += p->dato.voto; 
     }
   }
 
@@ -107,7 +107,7 @@ NODO* VerbaliVotiAlti(NODO* listaIn, char* insegnamenti[], int size) {
   calcolaMediaVerbali(listaIn, insegnamenti, medie, size);
   int foundedIndexMediaMax = trovaIndexMediaMax(medie, size);
   if(foundedIndexMediaMax == ERRORE) return NULL;
-  // float foundedMediaAlta = medie[foundedIndexMediaMax];
+  float foundedMediaAlta = medie[foundedIndexMediaMax];
   char* wantedInsegnamento = insegnamenti[foundedIndexMediaMax];
 
   NODO* listaOut = NULL;
@@ -116,6 +116,9 @@ NODO* VerbaliVotiAlti(NODO* listaIn, char* insegnamenti[], int size) {
     char* thisListaInsegnamento = p->dato.codiceInsegnamento;
     bool haveSameCodIns = strcmp(thisListaInsegnamento, wantedInsegnamento) == 0;
     if(!haveSameCodIns) continue;
+
+    bool isVotoBiggerThanMedia = (float)p->dato.voto > foundedMediaAlta;
+    if(!isVotoBiggerThanMedia) continue;
 
     if(insTesta(listaOut, p->dato) == ERRORE) return NULL;
   }
