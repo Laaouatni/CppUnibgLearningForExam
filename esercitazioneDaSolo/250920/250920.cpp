@@ -1,8 +1,9 @@
-#include <cstrdlib> // atoi
+#include <cstdlib> // atoi
 #include <cstring> // strcmp
 
 struct VERBALE {
   char codiceVerbale[16];
+  char dataEmissioneVerbale[11];
   char dataAppelloEsame[11];
   char dataSuperamentoEsame[11];
   char codiceInsegnamento[11];
@@ -40,7 +41,7 @@ void initArray(int array[], int value, int size) {
 
 int estraiValore(char* dataString, int ini, int len) {
   const int BUFFER_LENGTH = len+1;
-  char* buffer[BUFFER_LENGTH];
+  char buffer[BUFFER_LENGTH];
 
   for(int i=0; i<len; i++) {
     char thisChar = dataString[ini+i];
@@ -54,7 +55,7 @@ int estraiValore(char* dataString, int ini, int len) {
 
 void contaAppelliStessaData(NODO* lista, char* dateAppelli[], int conteggi[], int size) {
   for(NODO* p = lista; p != NULL; p = p->next) {
-    char* thisDataAppello = p->dato.dataAppello;
+    char* thisDataAppello = p->dato.dataAppelloEsame;
     for(int i=0; i<size; i++) {
       char* thisForDataAppello = dateAppelli[i];
       bool isSameDate = strcmp(thisDataAppello, thisForDataAppello) == 0;
@@ -85,7 +86,7 @@ int trovaIndexDataMax(int conteggi[], int size) {
 
 int insTestaSeData(NODO* &listaOut, NODO* lista, char* wantedDataAppello) {
   for(NODO* p = lista; p != NULL; p = p->next) {
-    char* thisListaDataAppello = p->dato.dataAppello;
+    char* thisListaDataAppello = p->dato.dataAppelloEsame;
     bool isSameDate = strcmp(thisListaDataAppello, wantedDataAppello) == 0;
     if(!isSameDate) continue;
     if(insTesta(listaOut, p->dato) == ERRORE) return ERRORE;
@@ -99,8 +100,8 @@ NODO* copiaAlcuniVerbali(NODO* lista1, NODO* lista2, char* dateAppelli[], int si
   int conteggi[size];
   initArray(conteggi, 0, size);
 
-  contaApelliStessaData(lista1, dateAppelli, conteggi, size);
-  contaApelliStessaData(lista2, dateAppelli, conteggi, size);
+  contaAppelliStessaData(lista1, dateAppelli, conteggi, size);
+  contaAppelliStessaData(lista2, dateAppelli, conteggi, size);
 
   int indexMax = trovaIndexDataMax(conteggi, size);
   if(indexMax == ERRORE) return NULL;
