@@ -44,7 +44,7 @@ int estraiValore(char* paramString, int ini, int len) {
     return atoi(buffer);
 };
 
-int isSameMeseAnno(char* firstData, char* secondData) {
+bool isSameMeseAnno(char* firstData, char* secondData) {
     int firstAnno = estraiValore(firstData, 0,4);
     int secondAnno = estraiValore(secondData, 0,4);
     int firstMese = estraiValore(firstData, 5,2);
@@ -55,9 +55,7 @@ int isSameMeseAnno(char* firstData, char* secondData) {
 
     bool isWantedDate = isSameAnno && isSameMese;
 
-    if(!isWantedDate) return ERRORE;
-    
-    return SUCCESS;
+    return isWantedDate;
 }
 
 void initArray(int array[], int value, int size) {
@@ -87,9 +85,14 @@ int insMin(int conteggi[], int size) {
 
     for(int i=0; i<size; i++) {
         int thisValue = conteggi[i];
+        bool isEmpty = thisValue == 0;
+        if(isEmpty) continue;
+
         bool isFirstTime = minValue == ERRORE;
         bool isSmallerThanBefore = thisValue<minValue;
+
         bool canUpdate = isFirstTime || isSmallerThanBefore;
+        
         if(!canUpdate) continue;
         minIndex = i;
         minValue = thisValue;
@@ -106,6 +109,10 @@ NODO* VerbaliMeseDiverso(NODO* listaIn, char* insegnamenti[], int size) {
     contaVerbaliStessoAnno(listaIn, conteggi, insegnamenti, size);
     
     int minIndex = insMin(conteggi, size);
+    
+    bool isMinIndexFound = minIndex != ERRORE;
+    if(!isMinIndexFound) return NULL;
+
     char* wantedInsegnamento = insegnamenti[minIndex];
 
     NODO* listaOut = NULL;
